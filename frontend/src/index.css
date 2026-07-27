@@ -1,0 +1,49 @@
+@import "tailwindcss";
+
+/* Tailwind v4 theme tokens. Override these variables per project to re-theme
+   semantic utilities such as bg-primary, text-ink, and font-display. */
+@theme {
+  --color-bg:           #fdfdfc;
+  --color-surface:      #ffffff;
+  --color-surface-alt:  #f4f4f7;
+  --color-ink:          #111827;
+  --color-muted:        #6b7280;
+  --color-line:         #e5e7eb;
+  --color-primary:      #4338ca;
+  --color-primary-fg:   #ffffff;
+  --color-accent:       #f59e0b;
+  --color-success:      #16a34a;
+  --color-warning:      #f59e0b;
+  --color-danger:       #dc2626;
+
+  --font-display: 'Noto Serif SC', 'Source Han Serif SC', Georgia, serif;
+  --font-body:    'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-mono:    ui-monospace, monospace;
+
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 16px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg:          #0b0d12;
+    --color-surface:     #11141b;
+    --color-surface-alt: #161a23;
+    --color-ink:         #f3f4f6;
+    --color-muted:       #9ca3af;
+    --color-line:        #1f2330;
+    --color-primary:     #818cf8;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
