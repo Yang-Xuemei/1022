@@ -1,40 +1,249 @@
 @import "tailwindcss";
 
-/* Tailwind v4 theme tokens. Override these variables per project to re-theme
-   semantic utilities such as bg-primary, text-ink, and font-display. */
+/* 中國風復古 · 画刊单色（editorial-mono）主题 tokens
+   暖纸底 + 墨字 + 旧铜绿砖红强调，搭配宋体标题与楷书正文。 */
 @theme {
-  --color-bg:           #fdfdfc;
-  --color-surface:      #ffffff;
-  --color-surface-alt:  #f4f4f7;
-  --color-ink:          #111827;
-  --color-muted:        #6b7280;
-  --color-line:         #e5e7eb;
-  --color-primary:      #4338ca;
-  --color-primary-fg:   #ffffff;
-  --color-accent:       #f59e0b;
-  --color-success:      #16a34a;
-  --color-warning:      #f59e0b;
-  --color-danger:       #dc2626;
+  --color-bg:           #fafaf7;
+  --color-surface:      #f3f1ec;
+  --color-surface-alt:  #ebe7df;
+  --color-ink:          #0a0a0a;
+  --color-muted:        #6b6459;
+  --color-line:         #d9d3c5;
+  --color-line-strong:  #b8ae98;
+  --color-primary:      #c8472b;
+  --color-primary-fg:   #fafaf7;
+  --color-accent:       #c8472b;
+  --color-success:      #3d6b3d;
+  --color-warning:      #b8823a;
+  --color-danger:       #a0361f;
 
-  --font-display: 'Noto Serif SC', 'Source Han Serif SC', Georgia, serif;
-  --font-body:    'Inter', ui-sans-serif, system-ui, sans-serif;
-  --font-mono:    ui-monospace, monospace;
+  --font-display: 'Source Han Serif SC', 'Noto Serif SC', Songti, Georgia, serif;
+  --font-body:    'LXGW WenKai Screen', 'PingFang SC', system-ui, sans-serif;
+  --font-mono:    ui-monospace, 'Songti SC', monospace;
 
   --radius-sm: 4px;
-  --radius-md: 8px;
-  --radius-lg: 16px;
+  --radius-md: 4px;
+  --radius-lg: 4px;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --color-bg:          #0b0d12;
-    --color-surface:     #11141b;
-    --color-surface-alt: #161a23;
-    --color-ink:         #f3f4f6;
-    --color-muted:       #9ca3af;
-    --color-line:        #1f2330;
-    --color-primary:     #818cf8;
-  }
+html,
+body {
+  background-color: #fafaf7;
+  color: #0a0a0a;
+}
+
+body {
+  font-family: 'LXGW WenKai Screen', 'PingFang SC', system-ui, sans-serif;
+  letter-spacing: 0.01em;
+  background-image:
+    radial-gradient(rgba(10, 10, 10, 0.04) 1px, transparent 1px);
+  background-size: 3px 3px;
+}
+
+/* 复古标题装饰：宋体字加墨色描边感 */
+.vintage-title {
+  font-family: 'Source Han Serif SC', 'Noto Serif SC', Songti, Georgia, serif;
+  letter-spacing: 0.25em;
+  font-weight: 600;
+  color: #0a0a0a;
+}
+
+.vintage-subtitle {
+  font-family: 'LXGW WenKai Screen', 'PingFang SC', system-ui, sans-serif;
+  letter-spacing: 0.15em;
+  color: #6b6459;
+}
+
+/* 画刊单色风分隔线 */
+.vintage-rule {
+  border-top: 1px solid #0a0a0a;
+  position: relative;
+}
+.vintage-rule::before {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 0;
+  right: 0;
+  border-top: 1px solid #0a0a0a;
+}
+
+/* 砖红印章装饰 */
+.vintage-seal {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border: 2px solid #c8472b;
+  color: #c8472b;
+  font-family: 'Source Han Serif SC', 'Noto Serif SC', Songti, serif;
+  font-size: 0.875rem;
+  font-weight: 700;
+  border-radius: 4px;
+  line-height: 1;
+  transform: rotate(-2deg);
+}
+
+/* outlined 按钮 */
+.btn-outline {
+  border: 1px solid #0a0a0a;
+  background: transparent;
+  color: #0a0a0a;
+  border-radius: 4px;
+  padding: 0.4rem 0.9rem;
+  font-size: 0.875rem;
+  letter-spacing: 0.08em;
+  transition: background-color 160ms ease, color 160ms ease, border-color 160ms ease;
+}
+.btn-outline:hover {
+  background-color: #0a0a0a;
+  color: #fafaf7;
+}
+.btn-outline-primary {
+  border: 1px solid #c8472b;
+  background: transparent;
+  color: #c8472b;
+  border-radius: 4px;
+  padding: 0.4rem 0.9rem;
+  font-size: 0.875rem;
+  letter-spacing: 0.08em;
+  transition: background-color 160ms ease, color 160ms ease;
+}
+.btn-outline-primary:hover {
+  background-color: #c8472b;
+  color: #fafaf7;
+}
+
+/* underlined 输入框 */
+.input-underlined {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #b8ae98;
+  color: #0a0a0a;
+  padding: 0.5rem 0.25rem;
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+  outline: none;
+  transition: border-color 160ms ease;
+}
+.input-underlined::placeholder {
+  color: #6b6459;
+  letter-spacing: 0.08em;
+}
+.input-underlined:focus {
+  border-bottom-color: #c8472b;
+}
+
+/* flat 卡片 */
+.card-flat {
+  background: #f3f1ec;
+  border: 1px solid #d9d3c5;
+  border-radius: 4px;
+}
+
+/* 筛选按钮激活态 */
+.filter-chip {
+  border: 1px solid #b8ae98;
+  background: transparent;
+  color: #6b6459;
+  border-radius: 4px;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  transition: all 160ms ease;
+}
+.filter-chip:hover {
+  color: #0a0a0a;
+  border-color: #0a0a0a;
+}
+.filter-chip[data-active="true"] {
+  background: #0a0a0a;
+  color: #fafaf7;
+  border-color: #0a0a0a;
+}
+
+/* 任务复选框：墨色方框 */
+.todo-checkbox {
+  appearance: none;
+  width: 1rem;
+  height: 1rem;
+  border: 1.5px solid #0a0a0a;
+  border-radius: 2px;
+  background: transparent;
+  cursor: pointer;
+  position: relative;
+  transition: background-color 160ms ease, border-color 160ms ease;
+}
+.todo-checkbox:hover {
+  border-color: #c8472b;
+}
+.todo-checkbox:checked {
+  background: #c8472b;
+  border-color: #c8472b;
+}
+.todo-checkbox:checked::after {
+  content: "";
+  position: absolute;
+  left: 4px;
+  top: 1px;
+  width: 5px;
+  height: 8px;
+  border: solid #fafaf7;
+  border-width: 0 1.5px 1.5px 0;
+  transform: rotate(45deg);
+}
+
+/* 删除按钮：墨字小图标，hover 转砖红 */
+.icon-btn {
+  color: #6b6459;
+  border-radius: 4px;
+  padding: 0.35rem;
+  transition: color 160ms ease, background-color 160ms ease;
+}
+.icon-btn:hover {
+  color: #c8472b;
+  background-color: rgba(200, 71, 43, 0.08);
+}
+
+/* 计数器胶囊 */
+.counter-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.5rem;
+  padding: 0.05rem 0.4rem;
+  border-radius: 999px;
+  border: 1px solid #d9d3c5;
+  background: #fafaf7;
+  font-size: 0.7rem;
+  font-family: 'Source Han Serif SC', 'Noto Serif SC', serif;
+  font-weight: 600;
+  color: #6b6459;
+  letter-spacing: 0.02em;
+}
+.counter-pill[data-active="true"] {
+  background: #c8472b;
+  color: #fafaf7;
+  border-color: #c8472b;
+}
+
+/* 分隔花纹 */
+.ornament {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: #b8ae98;
+  font-family: 'Source Han Serif SC', 'Noto Serif SC', serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+}
+.ornament::before,
+.ornament::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: #d9d3c5;
 }
 
 @media (prefers-reduced-motion: reduce) {
