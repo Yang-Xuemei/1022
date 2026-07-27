@@ -3,84 +3,128 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>待办清单</title>
+    <title>待 辦 清 單 · 畫刊</title>
   </head>
   <body class="min-h-screen bg-bg text-ink font-body">
-    <main class="mx-auto max-w-2xl px-4 py-10 sm:py-16">
-      <header class="mb-8 text-center">
-        <h1 class="text-3xl font-display font-semibold text-primary sm:text-4xl">
-          待办清单
-        </h1>
-        <p class="mt-2 text-sm text-muted">记录每一天的重要事项</p>
-      </header>
+    <!-- 顶部导航栏 · topbar -->
+    <header
+      class="sticky top-0 z-10 border-b border-line bg-bg/90 backdrop-blur-sm"
+    >
+      <div class="mx-auto flex max-w-xl items-center justify-between px-6 py-3">
+        <div class="flex items-center gap-3">
+          <span class="vintage-seal" aria-hidden="true">待辦</span>
+          <div class="flex flex-col leading-none">
+            <span class="vintage-title text-sm sm:text-base">畫刊 · 待辦</span>
+            <span class="vintage-subtitle text-[0.65rem]">EDITORIAL MONO · MMXXVI</span>
+          </div>
+        </div>
+        <nav class="hidden items-center gap-4 text-xs text-muted sm:flex">
+          <span>卷一</span>
+          <span class="text-line">｜</span>
+          <span>日常記事</span>
+          <span class="text-line">｜</span>
+          <span>第 <span id="issue-number">壹</span> 期</span>
+        </nav>
+      </div>
+    </header>
 
-      <section
-        class="rounded-xl border border-line bg-surface p-4 shadow-sm sm:p-6"
-        aria-label="添加新任务"
-      >
-        <form id="todo-form" class="flex gap-2">
-          <input
-            id="todo-input"
-            type="text"
-            placeholder="输入新任务，按 Enter 添加…"
-            autocomplete="off"
-            class="flex-1 rounded-lg border border-line bg-bg px-3 py-2 text-sm outline-none transition placeholder:text-muted focus:border-primary focus:ring-2 focus:ring-primary/20"
-          />
+    <main class="mx-auto max-w-xl px-6 py-10 sm:py-16">
+      <!-- 标题区 -->
+      <section class="mb-10 text-center">
+        <p class="ornament mb-5 text-muted">事 · 宜 · 謹 · 記</p>
+        <h1 class="vintage-title text-3xl sm:text-4xl">待 辦 清 單</h1>
+        <p class="vintage-subtitle mt-3 text-xs sm:text-sm">
+          墨 跡 未 乾 ， 且 將 瑣 事 細 細 記 下
+        </p>
+        <div class="vintage-rule mx-auto mt-6 w-32"></div>
+      </section>
+
+      <!-- 添加任务 · underlined 输入框 + outlined 按钮 -->
+      <section class="mb-8" aria-label="添加新任务">
+        <form id="todo-form" class="flex items-end gap-4">
+          <label class="flex flex-1 flex-col gap-1">
+            <span class="text-[0.7rem] tracking-[0.2em] text-muted">
+              新 條 目
+            </span>
+            <input
+              id="todo-input"
+              type="text"
+              placeholder="輸入今日應辦之事，按 Enter 收錄…"
+              autocomplete="off"
+              class="input-underlined flex-1"
+            />
+          </label>
           <button
             type="submit"
-            class="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white transition hover:bg-primary/90 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
+            class="btn-outline-primary"
           >
-            添加
+            收 錄
           </button>
         </form>
       </section>
 
-      <section class="mt-6" aria-label="任务列表">
+      <!-- 任务列表 · flat 卡片 -->
+      <section aria-label="任务列表">
         <ul
           id="todo-list"
-          class="divide-y divide-line overflow-hidden rounded-xl border border-line bg-surface shadow-sm"
+          class="card-flat divide-y divide-line overflow-hidden"
         ></ul>
-        <p
+        <div
           id="empty-state"
-          class="hidden rounded-xl border border-dashed border-line bg-surface/50 py-10 text-center text-sm text-muted"
+          class="hidden border border-dashed border-line bg-surface/40 py-14 text-center text-sm text-muted"
+          style="border-radius: 4px"
         >
-          暂无任务，添加一条开始吧 ✨
-        </p>
+          <span class="empty-title block font-display text-lg tracking-[0.3em] text-ink/60">
+            卷 中 無 事
+          </span>
+          <span class="empty-sub mt-2 block text-xs tracking-[0.2em]">
+            — 提 筆 添 一 條 罷 —
+          </span>
+        </div>
       </section>
 
+      <!-- 底部：计数器 + 筛选 -->
       <footer
         id="todo-footer"
-        class="mt-4 hidden flex-col gap-3 rounded-xl border border-line bg-surface px-4 py-3 text-sm sm:flex-row sm:items-center sm:justify-between"
+        class="mt-6 hidden flex-col gap-4 border-t border-line pt-5 sm:flex-row sm:items-center sm:justify-between"
       >
-        <div id="todo-counters" class="flex flex-wrap gap-x-4 gap-y-1 text-muted"></div>
+        <div id="todo-counters" class="flex flex-wrap items-center gap-x-4 gap-y-2 text-muted"></div>
         <div
           id="todo-filters"
-          class="flex gap-1 rounded-lg bg-bg p-1"
+          class="flex gap-2"
           role="group"
           aria-label="筛选"
         >
           <button
             type="button"
             data-filter="all"
-            class="filter-btn rounded-md px-3 py-1 text-xs font-medium transition"
+            class="filter-chip"
           >
-            全部
+            全 部
           </button>
           <button
             type="button"
             data-filter="active"
-            class="filter-btn rounded-md px-3 py-1 text-xs font-medium transition"
+            class="filter-chip"
           >
-            进行中
+            進 行 中
           </button>
           <button
             type="button"
             data-filter="completed"
-            class="filter-btn rounded-md px-3 py-1 text-xs font-medium transition"
+            class="filter-chip"
           >
-            已完成
+            已 完 成
           </button>
         </div>
+      </footer>
+
+      <!-- 页脚题跋 -->
+      <footer class="mt-16 text-center">
+        <div class="ornament text-muted">— 完 —</div>
+        <p class="vintage-subtitle mt-4 text-[0.65rem]">
+          畫 刊 待 辦 · 紙 上 日 常 · 丙 午 年 製
+        </p>
       </footer>
     </main>
     <script type="module" src="/src/main.ts"></script>

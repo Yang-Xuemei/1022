@@ -21,7 +21,7 @@ const state = {
 const form = requireElement<HTMLFormElement>("#todo-form");
 const input = requireElement<HTMLInputElement>("#todo-input");
 const list = requireElement<HTMLUListElement>("#todo-list");
-const emptyState = requireElement<HTMLParagraphElement>("#empty-state");
+const emptyState = requireElement<HTMLDivElement>("#empty-state");
 const footer = requireElement<HTMLElement>("#todo-footer");
 const counters = requireElement<HTMLDivElement>("#todo-counters");
 const filterBar = requireElement<HTMLDivElement>("#todo-filters");
@@ -33,9 +33,7 @@ function load(): void {
     if (raw) {
       const parsed = JSON.parse(raw) as unknown;
       if (Array.isArray(parsed)) {
-        state.todos = parsed
-          .filter(isValidTodo)
-          .map((t) => ({ ...t }));
+        state.todos = parsed.filter(isValidTodo).map((t) => ({ ...t }));
       }
     }
   } catch (error) {
@@ -122,11 +120,20 @@ function renderList(): void {
   if (visible.length === 0) {
     emptyState.hidden = false;
     if (state.todos.length === 0) {
-      emptyState.textContent = "暂无任务，添加一条开始吧 ✨";
+      const title = emptyState.querySelector(".empty-title");
+      const sub = emptyState.querySelector(".empty-sub");
+      if (title) title.textContent = "卷 中 無 事";
+      if (sub) sub.textContent = "— 提 筆 添 一 條 罷 —";
     } else if (state.filter === "active") {
-      emptyState.textContent = "没有进行中的任务";
+      const title = emptyState.querySelector(".empty-title");
+      const sub = emptyState.querySelector(".empty-sub");
+      if (title) title.textContent = "無 進 行 中 事";
+      if (sub) sub.textContent = "— 諸 務 皆 已 落 筆 成 墨 —";
     } else if (state.filter === "completed") {
-      emptyState.textContent = "没有已完成的任务";
+      const title = emptyState.querySelector(".empty-title");
+      const sub = emptyState.querySelector(".empty-sub");
+      if (title) title.textContent = "無 已 成 之 事";
+      if (sub) sub.textContent = "— 尚 待 落 筆 成 卷 —";
     }
     return;
   }
@@ -143,31 +150,35 @@ function renderList(): void {
 function buildTodoItem(todo: Todo): HTMLLIElement {
   const li = document.createElement("li");
   li.className =
-    "group flex items-center gap-3 px-4 py-3 transition hover:bg-surface-alt";
+    "group flex items-center gap-4 px-5 py-4 transition hover:bg-surface-alt";
   li.dataset.id = todo.id;
 
+  // 墨色复选框
   const checkbox = document.createElement("input");
   checkbox.type = "checkbox";
   checkbox.checked = todo.completed;
-  checkbox.className =
-    "h-4 w-4 flex-none cursor-pointer rounded border-line text-primary focus:ring-primary/30";
+  checkbox.className = "todo-checkbox flex-none";
   checkbox.setAttribute("aria-label", todo.completed ? "标记为未完成" : "标记为已完成");
   checkbox.addEventListener("change", () => toggleTodo(todo.id));
 
+  // 文字
   const textSpan = document.createElement("span");
   textSpan.className =
-    "flex-1 break-words text-sm transition " +
-    (todo.completed ? "text-muted line-through" : "text-ink");
+    "flex-1 break-words text-sm tracking-[0.04em] transition " +
+    (todo.completed
+      ? "text-muted line-through decoration-primary/50 decoration-1"
+      : "text-ink");
   textSpan.textContent = todo.text;
 
+  // 删除按钮
   const deleteBtn = document.createElement("button");
   deleteBtn.type = "button";
   deleteBtn.className =
-    "flex-none rounded-md p-1.5 text-muted opacity-0 transition hover:bg-danger/10 hover:text-danger focus:opacity-100 group-hover:opacity-100";
+    "icon-btn flex-none opacity-0 transition group-hover:opacity-100 focus:opacity-100";
   deleteBtn.setAttribute("aria-label", `删除任务：${todo.text}`);
-  deleteBtn.title = "删除";
+  deleteBtn.title = "刪";
   deleteBtn.innerHTML =
-    '<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path><path d="M10 11v6"></path><path d="M14 11v6"></path><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"></path></svg>';
+    '<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"></path><path d="M8 6V4h8v2"></path><path d="M5 6l1 14h12l1-14"></path><path d="M10 11v6"></path><path d="M14 11v6"></path></svg>';
   deleteBtn.addEventListener("click", () => removeTodo(todo.id));
 
   li.appendChild(checkbox);
@@ -182,27 +193,28 @@ function renderCounters(): void {
   const active = total - completed;
 
   const items: Array<{ label: string; count: number; key: Filter | "total" }> = [
-    { label: "全部", count: total, key: "total" },
-    { label: "进行中", count: active, key: "active" },
-    { label: "已完成", count: completed, key: "completed" },
+    { label: "全 部", count: total, key: "total" },
+    { label: "進 行 中", count: active, key: "active" },
+    { label: "已 完 成", count: completed, key: "completed" },
   ];
 
   counters.innerHTML = "";
   for (const item of items) {
     const span = document.createElement("span");
     const isActiveFilter = item.key === state.filter;
-    span.className =
-      "inline-flex items-center gap-1 " +
-      (isActiveFilter ? "font-medium text-ink" : "");
+    span.className = "inline-flex items-center gap-1.5";
+
     const countEl = document.createElement("span");
-    countEl.className =
-      "inline-flex min-w-[1.25rem] items-center justify-center rounded-full px-1.5 text-xs font-semibold " +
-      (isActiveFilter
-        ? "bg-primary text-white"
-        : "bg-bg text-muted");
+    countEl.className = "counter-pill";
+    countEl.dataset.active = isActiveFilter ? "true" : "false";
     countEl.textContent = String(item.count);
+
     const labelEl = document.createElement("span");
+    labelEl.className =
+      "text-[0.7rem] tracking-[0.15em] " +
+      (isActiveFilter ? "text-ink" : "text-muted");
     labelEl.textContent = item.label;
+
     span.appendChild(countEl);
     span.appendChild(labelEl);
     counters.appendChild(span);
@@ -210,16 +222,12 @@ function renderCounters(): void {
 }
 
 function renderFilters(): void {
-  const buttons = filterBar.querySelectorAll<HTMLButtonElement>(".filter-btn");
+  const buttons = filterBar.querySelectorAll<HTMLButtonElement>(".filter-chip");
   buttons.forEach((btn) => {
     const filter = btn.dataset.filter as Filter | undefined;
     if (!filter) return;
     const isActive = filter === state.filter;
-    btn.classList.toggle("bg-surface-alt", isActive);
-    btn.classList.toggle("text-ink", isActive);
-    btn.classList.toggle("shadow-sm", isActive);
-    btn.classList.toggle("text-muted", !isActive);
-    btn.classList.toggle("hover:text-ink", !isActive);
+    btn.dataset.active = isActive ? "true" : "false";
     btn.setAttribute("aria-pressed", String(isActive));
   });
 }
