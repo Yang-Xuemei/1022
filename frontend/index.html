@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>待办清单</title>
+  </head>
+  <body class="min-h-screen bg-bg text-ink font-body">
+    <main class="mx-auto max-w-2xl px-4 py-10 sm:py-16">
+      <header class="mb-8 text-center">
+        <h1 class="text-3xl font-display font-semibold text-primary sm:text-4xl">
+          待办清单
+        </h1>
+        <p class="mt-2 text-sm text-muted">记录每一天的重要事项</p>
+      </header>
+
+      <section
+        class="rounded-xl border border-line bg-surface p-4 shadow-sm sm:p-6"
+        aria-label="添加新任务"
+      >
+        <form id="todo-form" class="flex gap-2">
+          <input
+            id="todo-input"
+            type="text"
+            placeholder="输入新任务，按 Enter 添加…"
+            autocomplete="off"
+            class="flex-1 rounded-lg border border-line bg-bg px-3 py-2 text-sm outline-none transition placeholder:text-muted focus:border-primary focus:ring-2 focus:ring-primary/20"
+          />
+          <button
+            type="submit"
+            class="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white transition hover:bg-primary/90 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            添加
+          </button>
+        </form>
+      </section>
+
+      <section class="mt-6" aria-label="任务列表">
+        <ul
+          id="todo-list"
+          class="divide-y divide-line overflow-hidden rounded-xl border border-line bg-surface shadow-sm"
+        ></ul>
+        <p
+          id="empty-state"
+          class="hidden rounded-xl border border-dashed border-line bg-surface/50 py-10 text-center text-sm text-muted"
+        >
+          暂无任务，添加一条开始吧 ✨
+        </p>
+      </section>
+
+      <footer
+        id="todo-footer"
+        class="mt-4 hidden flex-col gap-3 rounded-xl border border-line bg-surface px-4 py-3 text-sm sm:flex-row sm:items-center sm:justify-between"
+      >
+        <div id="todo-counters" class="flex flex-wrap gap-x-4 gap-y-1 text-muted"></div>
+        <div
+          id="todo-filters"
+          class="flex gap-1 rounded-lg bg-bg p-1"
+          role="group"
+          aria-label="筛选"
+        >
+          <button
+            type="button"
+            data-filter="all"
+            class="filter-btn rounded-md px-3 py-1 text-xs font-medium transition"
+          >
+            全部
+          </button>
+          <button
+            type="button"
+            data-filter="active"
+            class="filter-btn rounded-md px-3 py-1 text-xs font-medium transition"
+          >
+            进行中
+          </button>
+          <button
+            type="button"
+            data-filter="completed"
+            class="filter-btn rounded-md px-3 py-1 text-xs font-medium transition"
+          >
+            已完成
+          </button>
+        </div>
+      </footer>
+    </main>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
